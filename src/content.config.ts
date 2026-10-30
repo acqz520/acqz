@@ -10,8 +10,12 @@ const posts = defineCollection({
   schema: ({ image }) =>
     z.object({
       author: z.string().default(config.site.author),
-      pubDatetime: z.date(),
-      modDatetime: z.date().optional().nullable(),
+      // Pages CMS may write dates as strings, so coerce; it writes "" for an unset date.
+      pubDatetime: z.coerce.date(),
+      modDatetime: z.preprocess(
+        v => (v === "" ? null : v),
+        z.coerce.date().optional().nullable()
+      ),
       title: z.string(),
       featured: z.boolean().optional(),
       draft: z.boolean().optional(),
