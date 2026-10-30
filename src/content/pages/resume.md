@@ -7,8 +7,7 @@ description: "My experience and skills."
 
 - **姓名**：你的名字
 - **方向**：后端开发 / 全栈
-- **邮箱**：[you@example.com](mailto:you@example.com)
-- **GitHub**：[github.com/your-name](https://github.com/your-name)
+- **GitHub**：[github.com/AichiQiezi](https://github.com/AichiQiezi)
 
 ## 工作经历
 
