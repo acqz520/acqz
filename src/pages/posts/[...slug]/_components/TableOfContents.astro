@@ -1,0 +1,89 @@
+---
+import type { MarkdownHeading } from "astro";
+import { useTranslations } from "@/i18n";
+import config from "@/config";
+
+type Props = {
+  headings: MarkdownHeading[];
+};
+
+const { headings } = Astro.props;
+
+const locale = Astro.currentLocale ?? config.site.lang;
+const t = useTranslations(locale);
+
+// Only h2/h3 keep the sidebar readable; deeper levels add noise.
+const items = headings.filter(h => h.depth >= 2 && h.depth <= 3);
+---
+
+{
+  items.length > 0 && (
+    <aside
+      id="toc"
+      aria-label={t.post.toc}
+      data-pagefind-ignore
+      class="fixed top-28 left-[calc(50%+26rem)] hidden max-h-[calc(100dvh-10rem)] w-56 overflow-y-auto xl:block"
+    >
+      <p class="text-muted-foreground mb-3 text-xs font-semibold tracking-wider uppercase">
+        {t.post.toc}
+      </p>
+      <ul class="border-border space-y-2 border-s text-sm">
+        {items.map(h => (
+          <li class:list={[{ "ps-4": h.depth === 3 }]}>
+            <a
+              href={`#${h.slug}`}
+              data-toc-link={h.slug}
+              class="hover:text-accent -ms-px block border-s border-transparent ps-3 leading-snug opacity-70 transition-colors hover:opacity-100"
+            >
+              {h.text}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </aside>
+  )
+}
+
+<script>
+  function initTocSpy() {
+    const links = Array.from(
+      document.querySelectorAll<HTMLAnchorElement>("[data-toc-link]")
+    );
+    if (links.length === 0) return;
+
+    const headings = links
+      .map(link => document.getElementById(link.dataset.tocLink ?? ""))
+      .filter((h): h is HTMLElement => h !== null);
+
+    const setActive = (id: string) => {
+      for (const link of links) {
+        const active = link.dataset.tocLink === id;
+        link.classList.toggle("text-accent", active);
+        link.classList.toggle("border-accent", active);
+        link.classList.toggle("opacity-100", active);
+        link.classList.toggle("opacity-70", !active);
+      }
+    };
+
+    // Highlight the last heading that has scrolled past the top third of the viewport.
+    const update = () => {
+      const threshold = window.innerHeight / 3;
+      let current = headings[0]?.id;
+      for (const h of headings) {
+        if (h.getBoundingClientRect().top <= threshold) current = h.id;
+        else break;
+      }
+      if (current) setActive(current);
+    };
+
+    update();
+    document.addEventListener("scroll", update, { passive: true });
+    document.addEventListener(
+      "astro:before-swap",
+      () => document.removeEventListener("scroll", update),
+      { once: true }
+    );
+  }
+
+  document.addEventListener("astro:page-load", initTocSpy);
+</script>
