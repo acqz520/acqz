@@ -10,7 +10,7 @@ description: "Things I've built."
 基于 AstroPaper 搭建的个人站点，部署在 Cloudflare Pages。
 
 - **技术栈**：Astro、Tailwind CSS、Cloudflare Pages
-- **链接**：[GitHub](https://github.com/AichiQiezi/acqz)
+- **链接**：[GitHub](https://github.com/acqz520/acqz)
 
 ## 示例项目二
 

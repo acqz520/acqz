@@ -7,7 +7,7 @@ description: "My experience and skills."
 
 - **姓名**：你的名字
 - **方向**：后端开发 / 全栈
-- **GitHub**：[github.com/AichiQiezi](https://github.com/AichiQiezi)
+- **GitHub**：[github.com/acqz520](https://github.com/acqz520)
 
 ## 工作经历
 

@@ -23,12 +23,12 @@ export default defineAstroPaperConfig({
     showBackButton: true,
     editPost: {
       enabled: true,
-      url: "https://github.com/AichiQiezi/acqz/edit/main/",
+      url: "https://github.com/acqz520/acqz/edit/main/",
     },
     search: "pagefind",
   },
   socials: [
-    { name: "github",   url: "https://github.com/AichiQiezi" },
+    { name: "github",   url: "https://github.com/acqz520" },
   ],
   shareLinks: [
     { name: "whatsapp", url: "https://wa.me/?text=" },
