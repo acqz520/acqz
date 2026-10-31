@@ -14,7 +14,6 @@ content:
     path: src/content/posts
     format: yaml-frontmatter
     filename: "{year}-{month}-{day}-{primary}.md"
-    exclude: ["_releases", "_color-schemes"]
     view:
       primary: title
       sort: pubDatetime
