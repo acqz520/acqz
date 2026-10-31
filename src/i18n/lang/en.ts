@@ -8,6 +8,7 @@ export default {
     about: "About",
     projects: "Projects",
     resume: "Resume",
+    guestbook: "Guestbook",
     archives: "Archives",
     search: "Search",
   },

@@ -1,0 +1,74 @@
+---
+/**
+ * Giscus comments backed by GitHub Discussions on acqz520/acqz.
+ * Each page gets its own discussion, keyed by pathname.
+ */
+type Props = {
+  class?: string;
+};
+
+const { class: className } = Astro.props;
+
+const giscus = {
+  repo: "acqz520/acqz",
+  repoId: "R_kgDOVdRA-Q",
+  category: "Announcements",
+  categoryId: "DIC_kwDOVdRA-c4DKDFn",
+};
+---
+
+<section
+  class:list={["giscus-wrapper", className]}
+  data-pagefind-ignore
+  data-repo={giscus.repo}
+  data-repo-id={giscus.repoId}
+  data-category={giscus.category}
+  data-category-id={giscus.categoryId}
+>
+  <div class="giscus"></div>
+</section>
+
+<script>
+  const giscusTheme = () =>
+    document.documentElement.dataset.theme === "dark" ? "dark_dimmed" : "light";
+
+  function loadGiscus() {
+    const wrapper = document.querySelector<HTMLElement>(".giscus-wrapper");
+    if (!wrapper || wrapper.querySelector("script")) return;
+
+    const { repo, repoId, category, categoryId } = wrapper.dataset;
+    const script = document.createElement("script");
+    script.src = "https://giscus.app/client.js";
+    script.async = true;
+    script.crossOrigin = "anonymous";
+    Object.entries({
+      "data-repo": repo,
+      "data-repo-id": repoId,
+      "data-category": category,
+      "data-category-id": categoryId,
+      "data-mapping": "pathname",
+      "data-strict": "1",
+      "data-reactions-enabled": "1",
+      "data-emit-metadata": "0",
+      "data-input-position": "top",
+      "data-theme": giscusTheme(),
+      "data-lang": "en",
+      "data-loading": "lazy",
+    }).forEach(([k, v]) => script.setAttribute(k, v ?? ""));
+    wrapper.appendChild(script);
+  }
+
+  // Keep the comment iframe in sync with the site's light/dark toggle.
+  new MutationObserver(() => {
+    const frame = document.querySelector<HTMLIFrameElement>("iframe.giscus-frame");
+    frame?.contentWindow?.postMessage(
+      { giscus: { setConfig: { theme: giscusTheme() } } },
+      "https://giscus.app"
+    );
+  }).observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["data-theme"],
+  });
+
+  document.addEventListener("astro:page-load", loadGiscus);
+</script>

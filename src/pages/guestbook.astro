@@ -1,0 +1,28 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Breadcrumb from "@/components/Breadcrumb.astro";
+import Main from "@/components/Main.astro";
+import Footer from "@/components/Footer.astro";
+import Comments from "@/components/Comments.astro";
+import config from "@/config";
+
+const title = "Guestbook";
+const description = "Say hi, leave a note, or tell me what you'd like to read next.";
+---
+
+<Layout title={`${title} | ${config.site.title}`} {description}>
+  <Header />
+
+  <Breadcrumb />
+
+  <Main pageTitle={title} pageDesc={description}>
+    <p class="text-muted-foreground text-sm">
+      Sign in with GitHub to leave a message. Messages are stored in this
+      site's GitHub Discussions.
+    </p>
+    <Comments class="mt-8" />
+  </Main>
+
+  <Footer />
+</Layout>
